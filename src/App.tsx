@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react'
+import * as PIXI from 'pixi.js'
+import { Stage, Container } from '@inlet/react-pixi'
+import Image from "./Image"
 
-function App() {
+const url = "https://i.picsum.photos/id/523/1920/1080.jpg?hmac=sy_3fHrsxYu8cmYYWmQ2yWzPMfGNI42qloxWKF97ISk"
+
+const App = () => {
+  const [clicked, setClicked] = useState(false);
+  const handleClick = async () => {
+    console.log("clicked")
+    setClicked(true);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Stage width={1920} height={1080}>
+      <Container 
+        width={1920}
+        height={1080}
+        pointerdown={handleClick}
+        interactive
+        hitArea={new PIXI.Rectangle(0, 0, 1920, 1080)}
+      >
+      {
+        (()=>{
+          if( clicked ){
+            return <Image url={url} />
+          }
+        })()
+      }
+      
+      </Container>
+    </Stage>
+  )
 }
-
 export default App;
